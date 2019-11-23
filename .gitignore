@@ -1,0 +1,12 @@
+*.sqlite3
+.project
+.pydevproject
+*.pyc
+coverage/
+staticfiles
+.env
+.idea/
+*.log*
+.coverage
+.vscode/
+*.idea/
