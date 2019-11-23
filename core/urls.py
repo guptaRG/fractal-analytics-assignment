@@ -24,9 +24,9 @@ from rest_framework.permissions import AllowAny
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Veda Dashboard APIs",
+      title="Platform APIs",
       default_version='v1',
-      description="Veda Dashboard APIs",
+      description="Fractal Analytics Fullstack Assignment Django APIs",
    ),
    public=True,
    permission_classes=(AllowAny,),
