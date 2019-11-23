@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -21,6 +22,9 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.authtoken import views
 from rest_framework.permissions import AllowAny
+from rest_framework.routers import DefaultRouter
+
+from core.views import UserViewSet
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -32,11 +36,16 @@ schema_view = get_schema_view(
    permission_classes=(AllowAny,),
 )
 
+core_router = DefaultRouter()
+core_router.register(r'user', UserViewSet)
+
 urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('user/token/', views.obtain_auth_token, name='user-token'),
+    path('api/user/token/', views.obtain_auth_token, name='user-token'),
+    url(r'^api/', include(core_router.urls)),
+    url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
 ]
 
 if settings.DEBUG:
