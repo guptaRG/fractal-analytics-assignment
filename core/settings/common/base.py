@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 BASE_IP = os.environ.get('BASE_IP')
 BASE_URL = os.environ.get('BASE_URL')
 
@@ -130,5 +130,8 @@ GRAPPELLI_ADMIN_TITLE = os.environ.get('ADMIN_TITLE')
 
 # The Debug Toolbar is shown only if your IP address is listed in the INTERNAL_IPS setting
 INTERNAL_IPS = [
-    '127.0.0.1',
+    BASE_IP
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
