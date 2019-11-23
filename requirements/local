@@ -1,5 +1,6 @@
 -r base
 
 ipython==7.3.0
-django-extensions==2.1.4
+django-extensions==2.2.1
 coverage==4.5.4
+Werkzeug==0.16.0
