@@ -10,3 +10,4 @@ staticfiles
 .coverage
 .vscode/
 *.idea/
+venv/
