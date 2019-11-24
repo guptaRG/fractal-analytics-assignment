@@ -1,0 +1,15 @@
+venv/
+*.sqlite3
+.project
+.pydevproject
+*.pyc
+cover/
+staticfiles
+.idea/
+*.log.*
+*.log
+*.in
+.coverage
+.vscode/
+*.idea/
+.settings/
