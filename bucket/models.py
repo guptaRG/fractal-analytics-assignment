@@ -11,9 +11,9 @@ class Bucket(ModelBase):
     """
     Optional Bucket to segregate user ToDos
     """
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
 
     class Meta:
         """

@@ -10,9 +10,9 @@ class ToDo(ModelBase):
     """
     Model to store user ToDos
     """
-    bucket = models.ForeignKey(Bucket, on_delete=CASCADE, null=True, blank=True)
+    bucket = models.ForeignKey(Bucket, on_delete=CASCADE)
     done = models.BooleanField(default=False)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     title = models.CharField(max_length=256)
 
     class Meta:
