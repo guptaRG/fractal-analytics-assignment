@@ -19,4 +19,8 @@ RUN pip install --no-cache-dir -r requirements
 
 CMD python manage.py collectstatic --noinput \
     && python manage.py migrate \
-    && python manage.py runserver
+    && gunicorn -b 0.0.0.0:$PORT --workers $NUM_WORKERS \
+        --name fullstack_assignment_platform \
+        --access-logfile '-' --error-logfile '-' --log-level $GUNICORN_LOG_LEVEL \
+        --access-logformat '%(h)s %(l)s %(u)s %(t)s %(L)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"' \
+        core.wsgi
