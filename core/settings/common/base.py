@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 BASE_IP = os.environ.get('BASE_IP')
 BASE_URL = os.environ.get('BASE_URL')
@@ -83,11 +85,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.environ.get('DATABASE_FILE'),
+        'ENGINE': 'django.db.backends.mysql'
     }
 }
 
+# Use the database configuration defined in environment variable DATABASE_URL
+DB_FROM_ENV = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(DB_FROM_ENV)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
