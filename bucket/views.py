@@ -18,7 +18,7 @@ class BucketViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Retri
     serializer_class = BucketSerializer
 
     def get_queryset(self):
-        return Bucket.objects.filter(user=self.request.user)
+        return Bucket.objects.filter(user=self.request.user, name__isnull=False)
 
     def create(self, request, *args, **kwargs):
         data = request.data

@@ -24,6 +24,7 @@ from rest_framework.authtoken import views
 from rest_framework.permissions import AllowAny
 from rest_framework.routers import DefaultRouter
 
+from to_do.urls import router as to_do_router
 from bucket.urls import router as bucket_router
 from core.views import UserViewSet
 
@@ -47,6 +48,7 @@ urlpatterns = [
     path('api/user/token/', views.obtain_auth_token, name='user-token'),
     url(r'^api/', include(core_router.urls)),
     url(r'^api/', include(bucket_router.urls)),
+    url(r'^api/', include(to_do_router.urls)),
     url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
 ]
 
