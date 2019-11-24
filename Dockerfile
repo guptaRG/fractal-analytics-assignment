@@ -15,7 +15,7 @@ WORKDIR /fractal_analytics_platform
 # Now copy the entire code and install all dependencies
 # As a best practice, you should pin down version numbers in requirements.txt
 COPY . /fractal_analytics_platform
-RUN pip install --no-cache-dir -r requirements
+RUN pip install --no-cache-dir -r requirements/prod
 
 CMD python manage.py collectstatic --noinput \
     && python manage.py migrate \

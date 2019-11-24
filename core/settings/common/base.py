@@ -25,7 +25,7 @@ BASE_URL = os.environ.get('BASE_URL')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '=!16nv^@hf5$ssvs0fjaifj6cfx_m_1^uyyz=)j!mi$m2m(9n='
 
-ALLOWED_HOSTS = [BASE_IP, BASE_URL]
+ALLOWED_HOSTS = [BASE_IP, BASE_URL, 'localhost']
 
 # Application definition
 
