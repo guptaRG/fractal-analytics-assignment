@@ -1,12 +1,14 @@
 # Create your views here.
 import logging
 
+from django.contrib.auth.models import AnonymousUser
 from rest_framework import status as http_status
 from rest_framework import viewsets, mixins
+from rest_framework.exceptions import PermissionDenied
 
 from bucket.models import Bucket
 from bucket.serializers import BucketSerializer
-from constants.api_response_messages import CREATE_BUCKET_ERROR
+from constants.api_response_messages import CREATE_BUCKET_ERROR, INVALID_USER
 from core.permissions import IsUser
 from core.utils import get_api_success_response, get_api_error_response
 
@@ -18,6 +20,9 @@ class BucketViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.Retri
     serializer_class = BucketSerializer
 
     def get_queryset(self):
+        if isinstance(self.request.user, AnonymousUser):
+            LOG.error("No user could be authorized in this request: %s", self.basename)
+            raise PermissionDenied(INVALID_USER)
         return Bucket.objects.filter(user=self.request.user, name__isnull=False)
 
     def create(self, request, *args, **kwargs):
