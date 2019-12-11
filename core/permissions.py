@@ -14,3 +14,4 @@ class IsUser(permissions.BasePermission):
             return obj.user == request.user
         if isinstance(obj, ToDo):
             return obj.bucket.user == request.user
+        return True

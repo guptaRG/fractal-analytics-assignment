@@ -10,5 +10,5 @@ drf-yasg==1.16.1
 packaging==19.2
 
 # DRF for making REST APIs
-djangorestframework==3.10.3
+djangorestframework==3.9.0
 django-cors-headers==2.4.0

@@ -1,24 +1,29 @@
 # Create your views here.
 import logging
 
-from rest_framework import viewsets
+from django.contrib.auth.models import AnonymousUser
+from rest_framework import status as http_status
+from rest_framework import viewsets, mixins
+from rest_framework.exceptions import PermissionDenied
 
 from bucket.models import Bucket
-from constants.api_response_messages import INVALID_BUCKET
+from constants.api_response_messages import INVALID_BUCKET, INVALID_USER
 from core.permissions import IsUser
 from core.utils import get_api_error_response
 from to_do.models import ToDo
 from to_do.serializers import ToDoSerializer
-from rest_framework import status as http_status
 
 LOG = logging.getLogger(__name__)
 
 
-class ToDoViewSet(viewsets.ModelViewSet):
+class ToDoViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     serializer_class = ToDoSerializer
     permission_classes = (IsUser,)
 
     def get_queryset(self):
+        if isinstance(self.request.user, AnonymousUser):
+            LOG.error("No user could be authorized in this request: %s", self.basename)
+            raise PermissionDenied(INVALID_USER)
         return ToDo.objects.select_related('bucket').filter(bucket__user=self.request.user)
 
     def create(self, request, *args, **kwargs):
