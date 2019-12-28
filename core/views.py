@@ -5,9 +5,10 @@ from django.db import IntegrityError
 from rest_framework import status as http_status
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
+from rest_framework.exceptions import APIException
 from rest_framework.permissions import AllowAny
 
-from constants.api_response_messages import INVALID_CREDENTIALS, INVALID_REQUEST, USER_EXISTS
+from constants.api_response_messages import INVALID_CREDENTIALS, INVALID_REQUEST, USER_EXISTS, INVALID_PASSWORD
 from core.permissions import IsUser
 from core.serializers import UserSerializer
 from core.utils import get_api_success_response, get_api_error_response
@@ -42,6 +43,9 @@ class UserViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin):
             username = request.data.pop('username')
             user = get_user_model().objects.create(username=username)
             password = request.data.pop('password')
+            if not password:
+                LOG.error("Empty password sent by the user: %s", username)
+                raise APIException(INVALID_PASSWORD )
             user.set_password(password)
             serializer_obj = self.get_serializer(user, data=request.data, partial=True)
             if serializer_obj.is_valid(raise_exception=True):
