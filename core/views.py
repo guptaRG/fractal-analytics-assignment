@@ -29,9 +29,11 @@ class UserViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin):
     def login(self, request, *args, **kwargs):
         username = request.data.get('username')
         password = request.data.get('password')
+        browser_info = request.data.get('browser_info')
         user = authenticate(request, username=username, password=password)
         if user:
             LOG.info("User %s has logged in successfully", user)
+            
             return get_api_success_response(data=self.get_serializer(user).data)
         else:
             LOG.info("Invalid credentials provided by user: %s", username)
