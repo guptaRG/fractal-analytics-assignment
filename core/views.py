@@ -9,6 +9,7 @@ from rest_framework.exceptions import APIException
 from rest_framework.permissions import AllowAny
 
 from constants.api_response_messages import INVALID_CREDENTIALS, INVALID_REQUEST, USER_EXISTS, INVALID_PASSWORD
+from core.models import UserLoginHistory
 from core.permissions import IsUser
 from core.serializers import UserSerializer
 from core.utils import get_api_success_response, get_api_error_response
@@ -29,11 +30,14 @@ class UserViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin):
     def login(self, request, *args, **kwargs):
         username = request.data.get('username')
         password = request.data.get('password')
-        browser_info = request.data.get('browser_info')
+        browser_info = request.data.get('browser_info', {})
         user = authenticate(request, username=username, password=password)
         if user:
             LOG.info("User %s has logged in successfully", user)
-            
+            UserLoginHistory.objects.create(user=user, os=browser_info.get('os'),
+                                            browser_name=browser_info.get('name'),
+                                            browser_version=browser_info.get('version'))
+            LOG.info("Stored log in for the user %s in history", user)
             return get_api_success_response(data=self.get_serializer(user).data)
         else:
             LOG.info("Invalid credentials provided by user: %s", username)
