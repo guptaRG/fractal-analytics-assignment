@@ -16,7 +16,7 @@ from to_do.serializers import ToDoSerializer
 LOG = logging.getLogger(__name__)
 
 
-class ToDoViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+class ToDoViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.UpdateModelMixin):
     serializer_class = ToDoSerializer
     permission_classes = (IsUser,)
 
